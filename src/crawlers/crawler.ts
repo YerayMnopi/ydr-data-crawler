@@ -23,12 +23,18 @@ export abstract class Crawler {
    */
   protected crawledData: any[] = [];
 
-  /**
-   * A pino logger instance.
-   */
-  protected logger!: pino.Logger;
-
   constructor(
+
+    /**
+     * Puppeteer library
+     */
+    private readonly puppeteer: any,
+
+    /**
+     * A pino logger instance.
+     */
+    protected logger: pino.Logger,
+
     /**
      * The home url of the web to crawl.
      */
@@ -43,9 +49,7 @@ export abstract class Crawler {
      * The name of the file where the crawledData property is going to be saved.
      */
     protected readonly fileToSaveData: string,
-  ) {
-    this.logger = loggerFactory(this.baseUrl);
-  }
+  ) {}
 
   /**
    * The main method of the class. Starts the crawling process and calls the hooks.
@@ -75,7 +79,7 @@ export abstract class Crawler {
    */
   protected async open(): Promise<void> {
     this.logger.info('Opening home page');
-    this.browser = await puppeteer.launch({ headless: true });
+    this.browser = await this.puppeteer.launch({ headless: true });
     this.page = await this.browser.newPage();
     await this.page.goto(this.baseUrl);
     await this.page.waitForSelector(this.baseUrlSelector);

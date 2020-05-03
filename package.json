@@ -1,5 +1,5 @@
 {
-  "name": "coursehub",
+  "name": "ydr-data-crawler",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,10 @@
     "test": "jest"
   },
   "keywords": [],
-  "author": "",
+  "author": "Yeray Díaz Rodríguez",
+  "repository": {
+    "url": "https://github.com/YerayMnopi/ydr-data-crawler"
+  },
   "license": "ISC",
   "dependencies": {
     "pino": "^6.2.1",
@@ -39,6 +42,6 @@
     }
   },
   "lint-staged": {
-    "*.{ts}": "eslint --cache --fix"
+    "*.ts": "eslint --cache --fix"
   }
 }

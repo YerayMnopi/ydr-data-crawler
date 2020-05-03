@@ -1,12 +1,13 @@
 import { Crawler } from '../crawler';
 import { Course } from './course.interface';
+import pino from 'pino';
 
 /**
  * A scrapper for coursera.org main course list.
  */
 export class CourseraCrawler extends Crawler {
-  constructor() {
-    super('https://www.coursera.org/courses', '.ais-InfiniteHits-item > div > a', 'coursera.json');
+  constructor(pupeeteer: any, logger: pino.Logger) {
+    super(pupeeteer, logger, 'https://www.coursera.org/courses', '.ais-InfiniteHits-item > div > a', 'coursera.json');
   }
 
   async onHomeLoaded(): Promise<void> {
