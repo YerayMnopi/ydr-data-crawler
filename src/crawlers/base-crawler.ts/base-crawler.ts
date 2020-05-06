@@ -1,12 +1,11 @@
 import { promises as fs } from 'fs';
 import puppeteer from 'puppeteer';
 import pino from 'pino';
-import { loggerFactory } from '../logger';
-
+import { BrowserMode } from './browser-mode.enum';
 /**
  * Base class for common functionality shared by crawlers
  */
-export abstract class Crawler {
+export abstract class BaseCrawler {
   /**
    * Browser given by puppeteer.
    */
@@ -22,6 +21,17 @@ export abstract class Crawler {
    * the saveToJson() method.
    */
   protected crawledData: any[] = [];
+
+  private viewportSizes = {
+    [BrowserMode.Desktop]: {
+      width: 1440,
+      height: 960
+    },
+    [BrowserMode.Mobile]: {
+      width: 414,
+      height: 736
+    }
+  }
 
   constructor(
 
@@ -79,8 +89,27 @@ export abstract class Crawler {
    */
   protected async open(): Promise<void> {
     this.logger.info('Opening home page');
-    this.browser = await this.puppeteer.launch({ headless: true });
-    this.page = await this.browser.newPage();
+
+    const browserMode: BrowserMode = process.argv.slice(2)[0] as BrowserMode || BrowserMode.Desktop;
+
+    if (browserMode === BrowserMode.Headless) {
+      this.browser = await this.puppeteer.launch({
+        headless: true,
+      });
+      this.page = await this.browser.newPage();
+    } else {
+      this.browser = await this.puppeteer.launch({
+        headless: false,
+      });
+
+      this.page = await this.browser.newPage();
+      await this.page.setViewport({
+        width: this.viewportSizes[browserMode].width,
+        height: this.viewportSizes[browserMode].height,
+        deviceScaleFactor: 1,
+      });
+
+    }
     await this.page.goto(this.baseUrl);
     await this.page.waitForSelector(this.baseUrlSelector);
     this.logger.info('Home page ready');

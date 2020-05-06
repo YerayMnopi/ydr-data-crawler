@@ -1,16 +1,17 @@
-import { Crawler } from '../crawler';
+import { BaseCrawler } from '../base-crawler.ts/base-crawler';
 import { Course } from './course.interface';
 import pino from 'pino';
 
 /**
  * A scrapper for coursera.org main course list.
  */
-export class CourseraCrawler extends Crawler {
+export class CourseraCrawler extends BaseCrawler {
   constructor(pupeeteer: any, logger: pino.Logger) {
     super(pupeeteer, logger, 'https://www.coursera.org/courses', '.ais-InfiniteHits-item > div > a', 'coursera.json');
   }
 
   async onHomeLoaded(): Promise<void> {
+    // this.login();
     this.logger.info('On home loaded hook start');
 
     const numberOfPages = await this.getNumberOfPages();
@@ -63,21 +64,21 @@ export class CourseraCrawler extends Crawler {
     });
   }
 
-  /*
-    async login(): Promise<void> {
-      const loginButtonSelector = '#c-ph-right-nav > ul > li.c-ph-right-nav-button.c-ph-log-in > a';
-      const emailInputSelector = '#emailInput_8-input';
-      const passwordInputSelector = '#passwordInput_9-input';
-      const submitButton = '#authentication-box-content > div > div._1tu07i3a.AuthenticationModalContentV1 > div > div._1tu07i3a.rc-LoginForm > form > div._1tu07i3a.w-100.placeholder-contrast > button > span';
-      const userEmail = 'yeraysonido@yahoo.es';
-      const userPassword = '';
+  
+  async login(): Promise<void> {
+    const loginButtonSelector = '#c-ph-right-nav > ul > li.c-ph-right-nav-button.c-ph-log-in > a';
+    const emailInputSelector = '#emailInput_8-input';
+    const passwordInputSelector = '#passwordInput_9-input';
+    const submitButton = '#authentication-box-content > div > div._1tu07i3a.AuthenticationModalContentV1 > div > div._1tu07i3a.rc-LoginForm > form > div._1tu07i3a.w-100.placeholder-contrast > button > span';
+    const userEmail = 'yeraysonido@yahoo.es';
+    const userPassword = 'bel-c89';
 
-      await page.waitForSelector(loginButtonSelector);
-      await page.click(loginButtonSelector);
-      await page.waitForSelector(emailInputSelector);
-      await page.type(emailInputSelector, userEmail);
-      await page.type(passwordInputSelector, userPassword);
-      await page.click(submitButton);
-    }
-    */
+    await this.page.waitForSelector(loginButtonSelector);
+    await this.page.click(loginButtonSelector);
+    await this.page.waitForSelector(emailInputSelector);
+    await this.page.type(emailInputSelector, userEmail);
+    await this.page.type(passwordInputSelector, userPassword);
+    await this.page.click(submitButton);
+  }
+    
 }

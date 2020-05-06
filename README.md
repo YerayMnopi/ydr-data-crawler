@@ -16,3 +16,10 @@ Scrape data from several course offering websites as coursera, udemy, etc.
 - [Jest](https://jestjs.io/docs/en/getting-started)
 - [Using Jest with typescript](https://github.com/kulshekhar/ts-jest)
 - [Pino logger](https://blog.morizyun.com/javascript/library-typescript-pino-logger.html)
+- [Debugging typescript](https://medium.com/@PhilippKief/how-to-debug-typescript-with-vs-code-9cec93b4ae56)
+- [Node commands](https://nodejs.org/en/knowledge/command-line/how-to-parse-command-line-arguments/)
+
+## Readings on web scrapping
+- [Scraping bot](https://www.scraping-bot.io/how-to-scrape-a-website-without-getting-blocked/)
+- [Googlebot user agents](https://developers.whatismybrowser.com/useragents/explore/software_name/googlebot/)
+- [Googlebot](https://support.google.com/webmasters/answer/182072)

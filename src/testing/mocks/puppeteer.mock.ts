@@ -1,5 +1,5 @@
 export class PuppeteerMock {
-  async lauch() {
+  async launch() {
     return new BrowserMock();
   }
 }
@@ -27,4 +27,6 @@ export class PageMock {
   async evaluate() {
     return null
   }
+
+  async setViewport() {}
 }

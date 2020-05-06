@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "npm run start:desktop",
+    "prestart": "npm run build",
     "build": "tsc",
-    "crawl:coursera": "node dist/crawlers/coursera",
+    "start:headless": "node dist/index.js headless",
+    "start:desktop": "node dist/index.js desktop",
+    "start:mobile": "node dist/index.js mobile",
     "lint": "eslint '*/**/*.ts' --quiet --fix",
     "test": "jest"
   },
@@ -38,7 +42,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
     }
   },
   "lint-staged": {
