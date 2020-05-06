@@ -22,6 +22,9 @@ export abstract class BaseCrawler {
    */
   protected crawledData: any[] = [];
 
+  /**
+   * Different presets sizes for the viewport when running on head mode
+   */
   private viewportSizes = {
     [BrowserMode.Desktop]: {
       width: 1440,
@@ -103,6 +106,7 @@ export abstract class BaseCrawler {
       });
 
       this.page = await this.browser.newPage();
+
       await this.page.setViewport({
         width: this.viewportSizes[browserMode].width,
         height: this.viewportSizes[browserMode].height,

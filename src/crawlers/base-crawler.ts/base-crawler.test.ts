@@ -1,5 +1,5 @@
 import { BaseCrawler } from './base-crawler';
-import { PuppeteerMock } from '../../testing/mocks/puppeteer.mock';
+import { PuppeteerMock, PageMock } from '../../testing/mocks/puppeteer.mock';
 import { LoggerMock } from '../../logger/logger.mock';
 import { BrowserMode } from './browser-mode.enum';
 
@@ -63,8 +63,9 @@ describe('Base Crawler', () => {
     let pageSpy: jest.SpyInstance;
 
     beforeEach(() => {
-      puppeteerSpy = jest.spyOn<any, any>(crawlerInstance['puppeteer'], 'launch');
-      pageSpy = jest.spyOn<any, any>(crawlerInstance['page'], 'setViewport');
+      process.argv[2] = '';
+      puppeteerSpy = jest.spyOn(crawlerInstance['puppeteer'], 'launch');
+      pageSpy = jest.spyOn(PageMock.prototype, 'setViewport');
     });
 
     test('should accept headless mode', () => {
@@ -75,7 +76,7 @@ describe('Base Crawler', () => {
       expect(puppeteerSpy).toHaveBeenCalledWith({headless: true});
     });
 
-    test('should use headless mode as default', () => {
+    test('should use head mode as default', () => {
       crawlerInstance['open']();
 
       expect(puppeteerSpy).toHaveBeenCalledWith({headless: false});

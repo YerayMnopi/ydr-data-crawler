@@ -1,6 +1,19 @@
-export class PuppeteerMock {
-  async launch() {
-    return new BrowserMock();
+export class PageMock {
+
+  async goto(url: string) {
+    return null;
+  }
+
+  async waitForSelector() {
+    return null;
+  }
+
+  async evaluate() {
+    return null;
+  }
+
+  async setViewport() {
+    return null;
   }
 }
 
@@ -14,19 +27,9 @@ export class BrowserMock {
   }
 }
 
-export class PageMock {
-
-  async goto(url: string) {
-    return null;
+export class PuppeteerMock {
+  async launch() {
+    return new BrowserMock();
   }
-
-  async waitForSelector() {
-    return null;
-  }
-
-  async evaluate() {
-    return null
-  }
-
-  async setViewport() {}
 }
+
