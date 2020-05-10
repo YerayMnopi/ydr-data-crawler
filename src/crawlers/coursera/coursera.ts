@@ -18,11 +18,9 @@ export class CourseraCrawler extends BaseCrawler {
 
     const courseBoxSelector = '.ais-InfiniteHits-item > div > a';
 
-    for (let i = 1; i <= numberOfPages; i++) {
+    for (let i = 1; i <= 2; i++) {
       this.logger.info(`Crawling page ${i}`);
-      this.crawledData = this.crawledData.concat(
-        await this.page.evaluate(this.getCoursesInPage, courseBoxSelector),
-      );
+      this.crawledData = this.crawledData.concat(await this.page.evaluate(this.getCoursesInPage, courseBoxSelector));
 
       const nextPageButtonSelector = '#pagination_right_arrow_button';
       await this.page.click(nextPageButtonSelector);
@@ -32,7 +30,7 @@ export class CourseraCrawler extends BaseCrawler {
     this.logger.info('On home loaded hook finish');
   }
 
-  private getCoursesInPage(courseBoxSelector: string): Course[]{
+  private getCoursesInPage(courseBoxSelector: string): Course[] {
     const courseraHome = 'https://www.coursera.org';
     const courseNameSelector = '.card-info.vertical-box > h2';
     const courseBoxList = document.querySelectorAll(courseBoxSelector);
@@ -64,14 +62,14 @@ export class CourseraCrawler extends BaseCrawler {
     });
   }
 
-  
   async login(): Promise<void> {
     const loginButtonSelector = '#c-ph-right-nav > ul > li.c-ph-right-nav-button.c-ph-log-in > a';
     const emailInputSelector = '#emailInput_8-input';
     const passwordInputSelector = '#passwordInput_9-input';
-    const submitButton = '#authentication-box-content > div > div._1tu07i3a.AuthenticationModalContentV1 > div > div._1tu07i3a.rc-LoginForm > form > div._1tu07i3a.w-100.placeholder-contrast > button > span';
+    const submitButton =
+      '#authentication-box-content > div > div._1tu07i3a.AuthenticationModalContentV1 > div > div._1tu07i3a.rc-LoginForm > form > div._1tu07i3a.w-100.placeholder-contrast > button > span';
     const userEmail = 'yeraysonido@yahoo.es';
-    const userPassword = 'bel-c89';
+    const userPassword = '';
 
     await this.page.waitForSelector(loginButtonSelector);
     await this.page.click(loginButtonSelector);
@@ -80,5 +78,4 @@ export class CourseraCrawler extends BaseCrawler {
     await this.page.type(passwordInputSelector, userPassword);
     await this.page.click(submitButton);
   }
-    
 }

@@ -1,0 +1,11 @@
+node_modules
+coverage
+app
+dist
+k8sHelmCharts
+test
+.env
+.env.*
+docker-compose.yml
+Dockerfile
+

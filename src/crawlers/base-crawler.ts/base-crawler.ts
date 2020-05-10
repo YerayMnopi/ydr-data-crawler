@@ -28,16 +28,15 @@ export abstract class BaseCrawler {
   private viewportSizes = {
     [BrowserMode.Desktop]: {
       width: 1440,
-      height: 960
+      height: 960,
     },
     [BrowserMode.Mobile]: {
       width: 414,
-      height: 736
-    }
-  }
+      height: 736,
+    },
+  };
 
   constructor(
-
     /**
      * Puppeteer library
      */
@@ -93,13 +92,33 @@ export abstract class BaseCrawler {
   protected async open(): Promise<void> {
     this.logger.info('Opening home page');
 
-    const browserMode: BrowserMode = process.argv.slice(2)[0] as BrowserMode || BrowserMode.Desktop;
+    const browserMode: BrowserMode = (process.argv.slice(2)[0] as BrowserMode) || BrowserMode.Desktop;
 
     if (browserMode === BrowserMode.Headless) {
       this.browser = await this.puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
         headless: true,
       });
       this.page = await this.browser.newPage();
+
+      const blockCallsType = [
+        'stylesheet',
+        'image',
+        'media',
+        'font',
+        'texttrack',
+        'fetch',
+        'eventsource',
+        'websocket',
+        'manifest',
+      ];
+      this.logger.info('setting request interceptor');
+      await this.page.setRequestInterception(true);
+      this.page.on('request', (request) => {
+        if (blockCallsType.includes(request.resourceType())) request.abort();
+        else request.continue();
+      });
+      this.logger.info('interceptor request setted');
     } else {
       this.browser = await this.puppeteer.launch({
         headless: false,
@@ -112,8 +131,8 @@ export abstract class BaseCrawler {
         height: this.viewportSizes[browserMode].height,
         deviceScaleFactor: 1,
       });
-
     }
+    this.logger.info(`going to ${this.baseUrl}`);
     await this.page.goto(this.baseUrl);
     await this.page.waitForSelector(this.baseUrlSelector);
     this.logger.info('Home page ready');
