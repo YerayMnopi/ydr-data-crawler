@@ -2,6 +2,8 @@ import { promises as fs } from 'fs';
 import puppeteer from 'puppeteer';
 import pino from 'pino';
 import { BrowserMode } from './browser-mode.enum';
+import StealthPlugin from 'puppeteer-extra-plugin-stealth'
+
 /**
  * Base class for common functionality shared by crawlers
  */
@@ -36,6 +38,18 @@ export abstract class BaseCrawler {
     },
   };
 
+  /**
+   * The home url of the web to crawl.
+   */
+  baseUrl!: string;
+
+  /**
+   * This selector is used to check that the page is loaded correctly.
+   */
+  baseUrlSelector!: string;
+
+  platformName!: string;
+
   constructor(
     /**
      * Puppeteer library
@@ -46,16 +60,6 @@ export abstract class BaseCrawler {
      * A pino logger instance.
      */
     protected logger: pino.Logger,
-
-    /**
-     * The home url of the web to crawl.
-     */
-    protected readonly baseUrl: string,
-
-    /**
-     * This selector is used to check that the page is loaded correctly.
-     */
-    protected readonly baseUrlSelector: string,
 
     /**
      * The name of the file where the crawledData property is going to be saved.
@@ -72,7 +76,11 @@ export abstract class BaseCrawler {
     (async () => {
       try {
         await this.open();
-        await this.onHomeLoaded();
+        try {
+          await this.onHomeLoaded();
+        } catch (error) {
+          this.logger.error(error);
+        }
         await this.saveToJson();
       } catch (err) {
         this.logger.error(err);
@@ -95,10 +103,12 @@ export abstract class BaseCrawler {
     const browserMode: BrowserMode = (process.argv.slice(2)[0] as BrowserMode) || BrowserMode.Desktop;
 
     if (browserMode === BrowserMode.Headless) {
-      this.browser = await this.puppeteer.launch({
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: true,
-      });
+      this.browser = await this.puppeteer
+        .use(StealthPlugin())
+        .launch({
+          args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-infobars'],
+          headless: true,
+        });
       this.page = await this.browser.newPage();
 
       const blockCallsType = [
@@ -119,13 +129,21 @@ export abstract class BaseCrawler {
         else request.continue();
       });
       this.logger.info('interceptor request setted');
-    } else {
-      this.browser = await this.puppeteer.launch({
-        headless: false,
+
+      await this.page.setViewport({
+        width: this.viewportSizes[BrowserMode.Desktop].width,
+        height: this.viewportSizes[BrowserMode.Desktop].height,
+        deviceScaleFactor: 1,
       });
-
+    } else {
+      this.browser = await this.puppeteer
+        .use(StealthPlugin())
+        .launch({
+          headless: false,
+        });
+        
       this.page = await this.browser.newPage();
-
+      
       await this.page.setViewport({
         width: this.viewportSizes[browserMode].width,
         height: this.viewportSizes[browserMode].height,

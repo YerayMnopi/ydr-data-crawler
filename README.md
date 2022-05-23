@@ -36,6 +36,7 @@ Delete all pods of this chart
 - [Pino logger](https://blog.morizyun.com/javascript/library-typescript-pino-logger.html)
 - [ts-jest: Using Jest with typescript](https://github.com/kulshekhar/ts-jest)
 - [Commitlint](https://github.com/conventional-changelog/commitlint)
+- [Numeral](http://numeraljs.com/)
 
 ## Tutorials
 #### Puppeteer
@@ -45,6 +46,8 @@ Delete all pods of this chart
 - [Puppeteer with typescript example repo](https://github.com/Lewuathe/site-snapshot)
 - [Puppeteer docker repo example](https://github.com/ebidel/try-puppeteer/blob/master/backend/Dockerfile)
 - [Optimizing puppeteer](https://dev.to/waqasabbasi/optimizing-and-deploying-puppeteer-web-scraper-1nll)
+- [Inspect request](https://blog.ramosly.com/how-ive-been-using-puppeteer-b8010e374ff7)
+- [Microsoft playwrigth](https://github.com/microsoft/playwright)
 
 #### Docker
 - [Puppeteer with docker](https://github.com/puppeteer/puppeteer/blob/master/docs/troubleshooting.md#running-puppeteer-in-docker)

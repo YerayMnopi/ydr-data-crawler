@@ -1,5 +1,5 @@
 export enum BrowserMode {
-  Headless='headless',
-  Desktop='desktop',
-  Mobile='mobile'
+  Headless = 'headless',
+  Desktop = 'desktop',
+  Mobile = 'mobile',
 }

@@ -3,4 +3,4 @@ export interface Course {
   link: string;
   institution: string;
   students: string;
-};
+}

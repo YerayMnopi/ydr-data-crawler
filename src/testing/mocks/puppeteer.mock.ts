@@ -1,5 +1,4 @@
 export class PageMock {
-
   async goto(url: string) {
     return null;
   }
@@ -32,4 +31,3 @@ export class PuppeteerMock {
     return new BrowserMock();
   }
 }
-

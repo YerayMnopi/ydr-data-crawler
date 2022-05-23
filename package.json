@@ -20,13 +20,20 @@
   },
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
+    "numeral": "^2.0.6",
     "pino": "^6.2.1",
-    "puppeteer": "^3.0.2"
+    "puppeteer": "^3.0.2",
+    "puppeteer-extra": "^3.1.16",
+    "puppeteer-extra-plugin-stealth": "^2.6.6",
+    "ydr-course-artifact": "^1.0.3",
+    "ydr-nest-common": "^1.0.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@types/jest": "^25.2.1",
+    "@types/numeral": "0.0.28",
     "@types/pino": "^6.0.0",
     "@types/puppeteer": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^2.30.0",
